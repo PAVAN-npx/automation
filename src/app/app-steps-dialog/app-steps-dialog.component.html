@@ -1,0 +1,170 @@
+
+  <ng-template #nullspan>
+            <span>-</span>
+           </ng-template>
+
+<div class="d-flex justify-content-between align-items-center  modal-header-custom">
+    <h5 mat-dialog-title class="dialog-title me-4x" >Execution Steps</h5>
+   <div class="scale-150">
+    <mat-icon aria-hidden="false" class="closeicon" aria-label="Example home icon" fontIcon="close" (click)="close()"></mat-icon>
+   </div>
+       
+
+
+
+</div>
+
+<mat-dialog-content class="dialog-content">
+  <div class="steps-table-container mat-elevation-z8">
+      <div *ngIf="isloading" class="spinner-container">
+   <!-- my-component.component.html -->
+<ngx-ui-loader [bgsType]="'three-bounce'" [bgsSize]="40"></ngx-ui-loader>
+
+  </div>
+    <table mat-table [dataSource]="dataSource" class="mat-table" *ngIf="!isloading">
+
+      <!-- EX_INSTANCE_STEP_ID -->
+      <ng-container matColumnDef="EX_INSTANCE_STEP_ID">
+        <th mat-header-cell *matHeaderCellDef> Step</th>
+        <td mat-cell *matCellDef="let element">
+          <span [ngClass]="{'clickable':api.formatValue(element.TOTAL_CASES)?element.TOTAL_CASES>0:false,
+                  'text-white':element.STATUS.toUpperCase()=='RUNNING'
+          
+      
+
+          }" *ngIf="api.formatValue(element.STEPS)" (click)="openStepsDialog(element)">
+          {{api.formatValue(element.EX_INSTANCE_STEP_ID)?element.EX_INSTANCE_STEP_ID:'-'  }}         
+         </span>
+        </td>
+         
+      </ng-container>
+
+      <!-- START_TIME -->
+      <ng-container matColumnDef="START_TIME">
+        <th mat-header-cell *matHeaderCellDef> Start Time </th>
+        <td mat-cell *matCellDef="let element"> 
+          
+         <span *ngIf="api.formatValue( element.START_TIME); else nullspan">
+          <div>{{ element.START_TIME | date:'dd/MM/yyyy' }}</div>
+          <div>{{ element.START_TIME | date:'hh:mm:ss a' }}</div>
+           </span>
+        </td>
+      </ng-container>
+
+      <!-- END_TIME -->
+      <ng-container matColumnDef="END_TIME">
+        <th mat-header-cell *matHeaderCellDef> End Time </th>
+        <td mat-cell *matCellDef="let element">
+          
+         <span *ngIf="api.formatValue( element.END_TIME); else nullspan">
+          <div>{{ element.END_TIME | date:'dd/MM/yyyy' }}</div>
+          <div>{{ element.END_TIME | date:'hh:mm:ss a' }}</div>
+           </span>
+        </td>
+      </ng-container>
+
+      <!-- EX_MACHINE_NAME -->
+      <ng-container matColumnDef="EX_MACHINE_NAME">
+        <th mat-header-cell *matHeaderCellDef> Machine </th>
+        <td mat-cell *matCellDef="let element"> {{ api.formatValue(element.EX_MACHINE_NAME)?element.EX_MACHINE_NAME:'-'  }} </td>
+      </ng-container>
+
+      <!-- STATUS -->
+      <ng-container matColumnDef="STATUS">
+        <th mat-header-cell *matHeaderCellDef> Status </th>
+        <td mat-cell *matCellDef="let element">
+          <span       
+            >
+            {{ api.formatValue(element.STATUS)?element.STATUS:'-'  }}
+          </span>
+        </td>
+      </ng-container>
+
+      <!-- TOTAL_CASES -->
+      <ng-container matColumnDef="TOTAL_CASES">
+        <th mat-header-cell *matHeaderCellDef> Total Cases </th>
+        <td mat-cell *matCellDef="let element"> {{ api.formatValue(element.TOTAL_CASES)?element.TOTAL_CASES:'-' }} </td>
+      </ng-container>
+
+      <!-- PASSED -->
+      <ng-container matColumnDef="PASSED">
+        <th mat-header-cell *matHeaderCellDef> Passed </th>
+        <td mat-cell *matCellDef="let element" class=""> {{ api.formatValue(element.PASSED)?element.PASSED:'-' }} </td>
+      </ng-container>
+
+      <!-- FAILED -->
+      <ng-container matColumnDef="FAILED">
+        <th mat-header-cell *matHeaderCellDef> Failed </th>
+        <td mat-cell *matCellDef="let element" class=""> {{ api.formatValue(element.FAILED)?element.FAILED:'-'  }} </td>
+      </ng-container>
+
+   <!-- features -->
+       <ng-container matColumnDef="FEATURES">
+        <th mat-header-cell *matHeaderCellDef> PlanName </th>
+        <td mat-cell *matCellDef="let element"> {{ api.formatValue(element.FEATURES)?element.FEATURES:'-' |slice:0:100 }} </td>
+      </ng-container>
+
+      <!-- PASS_PERCENT -->
+      <ng-container matColumnDef="PASS_PERCENT">
+        <th mat-header-cell *matHeaderCellDef> Pass % </th>
+        <td mat-cell *matCellDef="let element"> {{api.formatValue(element.PASS_PERCENT)?element.PASS_PERCENT+"%":'-'  }} </td>
+      </ng-container>
+
+      <!-- AVG_DURATION_MIN -->
+      <ng-container matColumnDef="AVG_DURATION_MIN">
+        <th mat-header-cell *matHeaderCellDef> Avg (min) </th>
+        <td mat-cell *matCellDef="let element"> {{ api.formatValue(element.AVG_DURATION_MIN)?element.AVG_DURATION_MIN:'-'  }} </td>
+      </ng-container>
+
+          <!-- 	Total executed -->
+            <ng-container matColumnDef="totalexecuted">
+              <th mat-header-cell *matHeaderCellDef class="custom-header">Total executed </th>
+              <td mat-cell *matCellDef="let element">{{ +element.PASSED + +element.FAILED}} </td>
+            </ng-container>
+
+      <!-- LAST_REPORTED_TIME -->
+      <ng-container matColumnDef="LAST_REPORTED_DATE">
+        <th mat-header-cell *matHeaderCellDef>  Reported date</th>
+        <td mat-cell *matCellDef="let element"> 
+          
+         <span *ngIf="api.formatValue( element.LAST_REPORTED_DATE); else nullspan">
+          <div>{{ element.LAST_REPORTED_DATE | date:'dd/MM/yyyy' }}</div>
+          <div>{{ element.LAST_REPORTED_DATE | date:'hh:mm:ss a' }}</div>
+           </span>
+            <span *ngIf="element.STATUS.toUpperCase()=='RUNNING'; else nullspan">
+  {{ api.formatValue(element.LAST_REPORTED_TIME)? '(' + element.LAST_REPORTED_TIME + ')' :'-'  }}
+         
+           </span>
+        
+        </td>
+      </ng-container>
+
+
+          <!-- LAST_REPORTED_TIME -->
+      <ng-container matColumnDef="LAST_REPORTED_TIME">
+        <th mat-header-cell *matHeaderCellDef> Reported Time </th>
+        <td mat-cell *matCellDef="let element">  <span *ngIf="element.STATUS.toUpperCase()=='RUNNING'; else nullspan">
+ {{ api.formatValue(element.LAST_REPORTED_TIME)?element.LAST_REPORTED_TIME:'-'  }}
+         
+           </span> </td>
+      </ng-container>
+
+      <!-- Table Rows -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <!-- <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'bg-danger text-white': row.LAST_REPORTED_TIME > 10}></tr> -->
+                   <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="
+                   {'bg-danger text-white': row.LAST_REPORTED_TIME > 10 &&  row.STATUS.toUpperCase()=='RUNNING',
+                    'bg-success text-white':row.LAST_REPORTED_TIME < 10 &&  row.STATUS.toUpperCase()=='RUNNING' ,
+                        'text-white':  row.STATUS.toUpperCase()=='RUNNING'
+
+                   }"></tr>
+          </table>
+               <mat-paginator [pageSizeOptions]="[10]"
+                 showFirstLastButtons
+                 aria-label="Select page of periodic elements">
+  </mat-paginator>
+  </div>
+</mat-dialog-content>
+
+
+

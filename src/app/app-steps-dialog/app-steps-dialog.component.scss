@@ -1,0 +1,143 @@
+/* Dialog Container */
+.dialog-content {
+  max-height: 500px;
+  // overflow-y: auto;
+   scrollbar-width: none;
+  padding: 10px;
+  box-sizing: border-box;
+}
+.closeicon{
+  scale: 2;
+  cursor: pointer;
+}
+ .modal-header-custom{
+  padding-left: 20px;      
+  padding-right: 20px;     
+  padding-top: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #ddd;
+ }
+
+.btn-blue {
+  background-color: #1976d2;  
+  color: white;    
+         
+  font-weight: 500;
+  border-radius: 4px;
+  padding: 6px 16px;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease;
+}
+
+.btn-blue:hover {
+  background-color: #115293;  }
+
+/* Table Container */
+.steps-table-container {
+   max-height: 400px;       
+  overflow-y: auto;    
+   scrollbar-width: none;      
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+/* Table Styling */
+table {
+  width: 100%;
+  min-width: 600px;
+  border-collapse: collapse;
+}
+
+/* Header Styling */
+th {
+  background-color: white; /* header background same as dashboard */
+  color: #1976d2; /* header text blue */
+  font-weight: 600;
+  padding: 8px;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+/* Cell Styling */
+td {
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+}
+
+::ng-deep .mat-header-row {
+  position: sticky;
+  top: 0;
+  background: #1976d2 !important; /* blue header */
+  color: white !important;
+  z-index: 10;
+}
+
+/* Table content styling */
+::ng-deep .mat-row td, 
+::ng-deep .mat-header-cell {
+  padding: 12px 16px;
+  font-size: 14px;
+}
+
+/* Optional: hover effect */
+::ng-deep .mat-row:hover td {
+  background-color: #f9f9f9;
+}
+
+/* Row Hover */
+tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Status Colors */
+.text-success {
+  color: green;
+  font-weight: 600;
+}
+
+.text-danger {
+  color: red;
+  font-weight: 600;
+}
+
+/* Clickable Steps Column */
+.clickable {
+  color: #1976d2;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* Scrollbar */
+.dialog-content::-webkit-scrollbar {
+  width: 8px;
+}
+.dialog-content::-webkit-scrollbar-thumb {
+  background: #b0bec5;
+  border-radius: 4px;
+}
+.dialog-content::-webkit-scrollbar-thumb:hover {
+  background: #90a4ae;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  table, th, td {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 600px) {
+  table, th, td {
+    padding: 6px 5px;
+  }
+}
+        
+
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px; 
+}

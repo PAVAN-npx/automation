@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">executionsummary</string>
+    <string name="title_activity_main">executionsummary</string>
+    <string name="package_name">com.mycompany.executionsummary</string>
+    <string name="custom_url_scheme">com.mycompany.executionsummary</string>
+</resources>

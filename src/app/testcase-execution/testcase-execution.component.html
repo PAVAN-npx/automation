@@ -1,0 +1,95 @@
+
+ <ng-template #nullspan>
+            <span>-</span>
+           </ng-template>
+
+
+<div class="d-flex justify-content-between align-items-center  modal-header-custom">
+    <h5 mat-dialog-title class="dialog-title me-4x" >Test Case Execution</h5>
+   <div class="scale-150">
+    <mat-icon aria-hidden="false" class="closeicon" aria-label="Example home icon" fontIcon="close" (click)="close()"></mat-icon>
+   </div>
+       
+
+
+
+</div>
+
+<mat-dialog-content class="dialog-content">
+  <div class="steps-table-container mat-elevation-z8">
+    <div *ngIf="isloading" class="spinner-container">
+   <!-- my-component.component.html -->
+<ngx-ui-loader [bgsType]="'three-bounce'" [bgsSize]="40"></ngx-ui-loader>
+
+  </div>
+    <table mat-table [dataSource]="dataSource" class="mat-table" *ngIf="!isloading">
+
+      <!-- EX_INSTANCE_STEP_ID -->
+      <ng-container matColumnDef="TESTCASE_EXTERNAL_ID">
+        <th mat-header-cell *matHeaderCellDef> TESTCASE EXTERNAl </th>
+        <td mat-cell *matCellDef="let element"> {{api.formatValue(element.TESTCASE_EXTERNAL_ID)?element.TESTCASE_EXTERNAL_ID:'-'  }} </td>
+      </ng-container>
+
+      <!-- START_TIME -->
+      <ng-container matColumnDef="START_TIME">
+        <th mat-header-cell *matHeaderCellDef> Start Time </th>
+        <td mat-cell *matCellDef="let element"> 
+          
+        <span *ngIf="api.formatValue( element.START_TIME); else nullspan">
+          <div>{{ element.START_TIME | date:'dd/MM/yyyy' }}</div>
+          <div>{{ element.START_TIME | date:'hh:mm:ss a' }}</div>
+           </span>
+        </td>
+      </ng-container>
+
+      <!-- END_TIME -->
+      <ng-container matColumnDef="END_TIME">
+        <th mat-header-cell *matHeaderCellDef> End Time </th>
+        <td mat-cell *matCellDef="let element"> 
+          
+        
+        <span *ngIf="api.formatValue( element.END_TIME); else nullspan">
+          <div>{{ element.END_TIME | date:'dd/MM/yyyy' }}</div>
+          <div>{{ element.END_TIME | date:'hh:mm:ss a' }}</div>
+           </span>
+        </td>
+      </ng-container>
+
+  
+      <!-- STATUS -->
+      <ng-container matColumnDef="STATUS">
+        <th mat-header-cell *matHeaderCellDef> Status </th>
+        <td mat-cell *matCellDef="let element">
+          <span       
+            >
+            {{ api.formatValue(element.STATUS)?element.STATUS:'-'  }}
+          </span>
+        </td>
+      </ng-container>
+
+      <!-- TOTAL_CASES -->
+      <ng-container matColumnDef="NOTES">
+        <th mat-header-cell *matHeaderCellDef> notes </th>
+        <td mat-cell *matCellDef="let element"> {{ api.formatValue(element.NOTES)?element.NOTES:'-' }} </td>
+      </ng-container>
+
+      <!-- PASSED -->
+      <ng-container matColumnDef="ACCOUNTNO">
+        <th mat-header-cell *matHeaderCellDef> ACCOUNTNO </th>
+        <td mat-cell *matCellDef="let element" class=""> {{ api.formatValue(element.ACCOUNTNO)?element.ACCOUNTNO:'-' }} </td>
+      </ng-container>
+
+     
+      <!-- Table Rows -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+               <mat-paginator [pageSizeOptions]="[10]"
+                 showFirstLastButtons
+                 aria-label="Select page of periodic elements">
+  </mat-paginator>
+  </div>
+</mat-dialog-content>
+
+
+

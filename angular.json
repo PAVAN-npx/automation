@@ -21,17 +21,23 @@
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
-              "zone.js"
+              "zone.js",
+              "@angular/localize/init"
             ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
+                "src/assets",
+              "src/addCredits.html",
+              "src/web.config.json",
+              "src/web.config",
               {
                 "glob": "**/*",
                 "input": "public"
               }
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/azure-blue.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -41,8 +47,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                   "maximumWarning": "2mb",
+    "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -53,7 +59,6 @@
               "outputHashing": "all"
             },
             "development": {
-              "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
             }
@@ -80,17 +85,26 @@
           "options": {
             "polyfills": [
               "zone.js",
-              "zone.js/testing"
+              "zone.js/testing",
+              "@angular/localize/init"
             ],
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
+               "src/assets",
+              "src/addCredits.html",
+              "src/web.config.json",
+              "src/web.config",
+             
               {
                 "glob": "**/*",
+                
                 "input": "public"
               }
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/azure-blue.css",
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.scss"
             ],
             "scripts": []
