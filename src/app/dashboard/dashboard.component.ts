@@ -186,7 +186,41 @@ this.api.updatestatus(element.EX_INSTANCE_ID).subscribe({
 }
 
   onExport() {
-    this.api.exportTableToExcel('dashboardTable', 'Dashboard_Report');
+
+  const dataToExport = this.dataSource.data.map(row => {
+    return {
+      EX_INSTANCE_ID: row.EX_INSTANCE_ID,
+      PLANNAME: row.PLANNAME,
+      EX_MACHINE_NAME: row.EX_MACHINE_NAME,
+      STEPS: row.STEPS,
+      STATUS: row.STATUS,
+      START_TIME:this.api.formatValue( row.START_TIME)?this.datePipe.transform(
+     row.START_TIME,
+      'dd/MM/yyyy hh:mm:ss a'
+    )!:'',
+      
+      
+      END_TIME:this.api.formatValue( row.END_TIME)?this.datePipe.transform(
+     row.END_TIME,
+      'dd/MM/yyyy hh:mm:ss a'
+    )!:'',     
+    TOTAL_CASES: row.TOTAL_CASES,
+      Total_executed:+row.PASSED + +row.FAILED,
+      PASSED: row.PASSED,
+      FAILED: row.FAILED,
+      PASS_PERCENT: row.PASS_PERCENT,
+      AVG_DURATION_MIN: row.AVG_DURATION_MIN,
+      LAST_REPORTED_DATE: this.api.formatValue(row.LAST_REPORTED_DATE)?this.datePipe.transform(
+      row.LAST_REPORTED_DATE,
+      'dd/MM/yyyy hh:mm:ss a'
+    )!:'',
+
+    last_reported_time:row.LAST_REPORTED_TIME
+   
+    };
+  });
+
+    this.api.exportTableToExcel(dataToExport, 'Dashboard_Report');
   }
   resetFilters(): void {
     this.startDate=null;

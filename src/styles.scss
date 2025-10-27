@@ -21,6 +21,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   background: #fff;
 
 }
+
+
+html, body {
+  overflow-x: hidden;
+}
+
  
 /* Header specifically needs higher z-index */
 

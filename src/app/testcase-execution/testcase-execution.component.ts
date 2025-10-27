@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef, MatDialogActions, MatDialogContent } fro
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
-   import { CommonModule } from '@angular/common';
+   import { CommonModule, DatePipe } from '@angular/common';
 import { DashboardComponent } from "../dashboard/dashboard.component";
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ExecutionService } from '../services/execution.service';
@@ -20,7 +20,8 @@ import { NgxUiLoaderModule, NgxUiLoaderService } from "ngx-ui-loader";
 @Component({
   selector: 'app-app-steps-dialog',
   standalone: true,
-  imports: [FormsModule, MatPaginator, MatDialogActions, MatDialogContent, CommonModule, MatTableModule, DashboardComponent, MatIconModule, TestcaseExecutionComponent, NgxUiLoaderModule],
+    providers: [DatePipe], 
+  imports: [FormsModule, MatPaginator, MatDialogActions, MatDialogContent, CommonModule, MatTableModule, DashboardComponent, MatIconModule, TestcaseExecutionComponent, NgxUiLoaderModule,DatePipe],
   templateUrl: './testcase-execution.component.html',
   styleUrl: './testcase-execution.component.scss'
 })
@@ -30,7 +31,7 @@ export class TestcaseExecutionComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator1!: MatPaginator;
 isloading=true;
   
-  constructor(public ngxService: NgxUiLoaderService,public activeModal: NgbActiveModal,public api:ExecutionService,   private cdr: ChangeDetectorRef){
+  constructor(public ngxService: NgxUiLoaderService,public activeModal: NgbActiveModal,public api:ExecutionService,   private cdr: ChangeDetectorRef ,public datePipe:DatePipe){
     // console.log('uhjhuthis',this.EX_INSTANCE_ID)
   }
 
@@ -85,7 +86,33 @@ isloading=true;
 stepsData: any;
 loading: any;
 errorMessage: any;
-
+  onExport() {
+      const dataToExport = this.dataSource.data.map(row => {
+    return {
+      
+TESTCASE_EXTERNAl: row.TESTCASE_EXTERNAL_ID,
+      
+      START_TIME:this.api.formatValue( row.START_TIME)?this.datePipe.transform(
+        row.START_TIME,
+        'dd/MM/yyyy hh:mm:ss a'
+      )!:'',
+     
+      
+      
+      END_TIME:this.api.formatValue( row.END_TIME)?this.datePipe.transform(
+     row.END_TIME,
+      'dd/MM/yyyy hh:mm:ss a'
+    )!:'',     
+    STATUS: row.STATUS, 
+    ACCOUNTNO: row.ACCOUNTNO,
+    NOTES: row.NOTES,
+   
+     
+   
+    };
+  });
+    this.api.exportTableToExcel(dataToExport, 'Testcase_Report');
+  }
 
   close() {
        this.activeModal.close('Modal closed with success!');

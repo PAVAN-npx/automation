@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef, MatDialogActions, MatDialogContent } fro
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { DashboardComponent } from "../dashboard/dashboard.component";
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ExecutionService } from '../services/execution.service';
@@ -11,6 +11,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import {MatIconModule} from '@angular/material/icon';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { MatButtonModule } from '@angular/material/button';
 
 import { TestcaseExecutionComponent } from '../testcase-execution/testcase-execution.component';
 import { NgxUiLoaderModule, NgxUiLoaderService } from "ngx-ui-loader";
@@ -23,7 +24,8 @@ import { NgxUiLoaderModule, NgxUiLoaderService } from "ngx-ui-loader";
 @Component({
   selector: 'app-app-steps-dialog',
   standalone: true,
-  imports: [FormsModule, MatPaginator, MatProgressSpinnerModule, MatDialogActions, MatDialogContent, CommonModule, MatTableModule, DashboardComponent, MatIconModule, NgxUiLoaderModule],
+    providers: [DatePipe], 
+  imports: [FormsModule, MatButtonModule,MatPaginator, MatProgressSpinnerModule, MatDialogActions, MatDialogContent, CommonModule, MatTableModule, DashboardComponent, MatIconModule, NgxUiLoaderModule,DatePipe],
   templateUrl: './app-steps-dialog.component.html',
   styleUrl: './app-steps-dialog.component.scss'
 })
@@ -33,7 +35,7 @@ export class AppStepsDialogComponent implements AfterViewInit {
   dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatPaginator) paginator1!: MatPaginator;
   
-  constructor(public ngxService: NgxUiLoaderService,public activeModal: NgbActiveModal,public api:ExecutionService,   private cdr: ChangeDetectorRef,public modalService:NgbModal){
+  constructor(public ngxService: NgxUiLoaderService,public activeModal: NgbActiveModal,public api:ExecutionService,   private cdr: ChangeDetectorRef,public modalService:NgbModal,public datePipe: DatePipe){
     // console.log('uhjhuthis',this.EX_INSTANCE_ID)
   }
 
@@ -62,6 +64,14 @@ export class AppStepsDialogComponent implements AfterViewInit {
           if (a.STATUS !== 'Running' && b.STATUS === 'Running') return 1;
           return 0;
         });
+
+    //     const respData = res.data.sort((a:any, b:any) => {
+     
+    //   if (a.STATUS === 'Running' && b.status !== 'Running') return -1;
+    //   if (a.status !== 'Running' && b.status === 'Running') return 1;
+
+    //   return b.EX_INSTANCE_ID - a.EX_INSTANCE_ID;
+    // });
         console.log(respData);        
         this.dataSource.data=respData;   
          this.ngxService.stop();
@@ -130,7 +140,42 @@ errorMessage: any;
     modalRef.componentInstance.EX_INSTANCE_STEP_ID = rowData.EX_INSTANCE_STEP_ID;
 
   }
+  onExport() {
+  const dataToExport = this.dataSource.data.map(row => {
+    return {
+      Step: row.EX_INSTANCE_STEP_ID,
+      PLANNAME: row.FEATURES,
+  
+  
+      START_TIME:this.api.formatValue( row.START_TIME)?this.datePipe.transform(
+        row.START_TIME,
+        'dd/MM/yyyy hh:mm:ss a'
+      )!:'',
+      STATUS: row.STATUS,
+      
+      
+      END_TIME:this.api.formatValue( row.END_TIME)?this.datePipe.transform(
+     row.END_TIME,
+      'dd/MM/yyyy hh:mm:ss a'
+    )!:'',     
+    TOTAL_CASES: row.TOTAL_CASES,
+      Total_executed:+row.PASSED + +row.FAILED,
+      PASSED: row.PASSED, 
+      FAILED: row.FAILED,
+      PASS_PERCENT: row.PASS_PERCENT,
+      AVG_DURATION_MIN: row.AVG_DURATION_MIN,
+      LAST_REPORTED_DATE: this.api.formatValue(row.LAST_REPORTED_DATE)?this.datePipe.transform(
+      row.LAST_REPORTED_DATE,
+      'dd/MM/yyyy hh:mm:ss a'
+    )!:'',
 
+    last_reported_time:row.LAST_REPORTED_TIME
+   
+    };
+  });
+
+    this.api.exportTableToExcel(dataToExport, 'Steps_Report');
+  }
 
   close() {
        this.activeModal.close('Modal closed with success!');

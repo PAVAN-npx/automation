@@ -55,20 +55,13 @@ export class ExecutionService {
   }
 
 
-    exportTableToExcel(elementId: string, fileName: string = 'Export'): void {
-    const element = document.getElementById(elementId);
-    if (!element) {
-      console.error(`Element with ID '${elementId}' not found.`);
-      return;
-    }
+    exportTableToExcel(dataToExport:any,fileName:string): void {
+   const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(dataToExport);
+  const workbook: XLSX.WorkBook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
 
-    const worksheet: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
-    const workbook: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
-
-    const wbout = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-    const blob = new Blob([wbout], { type: 'application/octet-stream' });
-
-    saveAs(blob, `${fileName}_${new Date().toISOString().slice(0,10)}.xlsx`);
+  const wbout = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+  const blob = new Blob([wbout], { type: 'application/octet-stream' });
+  saveAs(blob, `${fileName}_${new Date().toISOString().slice(0,10)}.xlsx`);
   }
 }

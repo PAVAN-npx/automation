@@ -11,6 +11,63 @@
     // overflow-x: hidden;
 }
 
+
+// .button-group {
+//   display: flex;
+//   align-items: center;
+//   justify-content: center; /* keeps the group near the center */
+//   gap: 40px; /* spacing between left and right button groups */
+//   padding: 0 80px; /* adds margin space from extreme edges */
+// }
+.downloadicon{
+   scale: 2;
+  cursor: pointer;
+
+}
+.button-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap; /* allows wrapping on small screens */
+  padding: 0 60px; /* moves inward on desktop */
+  gap: 10px; /* space between groups */
+}
+
+.left-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap; /* ensures Apply & Reset wrap if needed */
+  margin-left: 30px;
+}
+
+.right-buttons {
+  margin-right: 30px;
+}
+
+/* 📱 Mobile view adjustments */
+@media (max-width: 768px) {
+  .button-group {
+    justify-content: start; 
+    padding: 0 10px;
+    gap: 10px;
+  }
+
+  .left-buttons,
+  .right-buttons {
+    margin: -1;
+    justify-content: center;
+    flex-wrap: wrap; 
+  }
+
+  // .button-group button {
+  //   flex: 1 1 auto; 
+  //   // min-width: 100px;
+  //   // max-width: 140px; 
+  // }
+}
+
+
+
 /* Card */
 .dashboard-card {
   width: 100%;
@@ -67,7 +124,7 @@ h2 {
   max-height: 400px;       
   overflow-y: auto;    
    overflow-x: auto;      
-    scrollbar-width: none;
+    // scrollbar-width: none;
   border-radius: 8px;
   border: 1px solid #ddd;
 }
@@ -175,7 +232,14 @@ table.mat-table th.mat-header-cell {
   .dashboard-card {
     padding: 15px;
   }
-
+.dateposition{
+  position: relative;
+  left: -0.7rem;
+}
+.buttonposition{
+  position: relative;
+  left: -2rem;
+}
   th, td {
     padding: 6px 5px;
   }

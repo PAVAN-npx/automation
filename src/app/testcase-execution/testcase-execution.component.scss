@@ -129,5 +129,41 @@ tr:hover {
   table, th, td {
     padding: 6px 5px;
   }
+
+  .titleposition{
+     position: relative;
+  left: -1.2rem;
+  // scale: ;
+  }
 }
-         
+         .modal-header-custom {
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.dialog-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+  color: #333;
+}
+
+.icon-group {
+  gap: 0.75rem; /* creates equal spacing between icons */
+}
+
+.closeicon {
+  cursor: pointer;
+  font-size: 24px;
+  color: #444;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+// .closeicon:hover {
+//   color: #007bff;
+//   transform: scale(1.1);
+// }
+
+.titleposition {
+  flex-grow: 1; /* keeps title left-aligned and icons right-aligned */
+}

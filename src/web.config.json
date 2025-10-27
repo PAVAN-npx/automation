@@ -1,7 +1,7 @@
 {
 
 
-  "apiurl": "https://qcautomation.magnaquest.com/Automation_Execution/api/automation_charts",
+  "apiurl": "https://ocidev.magnaquest.com/Automation_api/api/automation_charts",
   "password": "sysadmin"
  
  
