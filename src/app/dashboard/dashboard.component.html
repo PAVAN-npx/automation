@@ -39,14 +39,14 @@
           <!-- Plan Name -->
            <div >
              <mat-form-field appearance="fill" class="filter-field col-12 col-sm-6 col-md-10 col-lg-12">
-               <input matInput placeholder="Plan Name" [(ngModel)]="filterParams.planName">
+               <input matInput placeholder="Name" [(ngModel)]="filterParams.planName">
              </mat-form-field>
            </div>
 
           <!-- Feature -->
            <div>
           <mat-form-field appearance="fill" class="filter-field col-12 col-sm-6 col-md-10 col-lg-12">
-            <input matInput placeholder="Feature" [(ngModel)]="filterParams.feature">
+            <input matInput placeholder="Machine" [(ngModel)]="filterParams.Machine">
           </mat-form-field>
           </div>
 
@@ -56,6 +56,7 @@
             <mat-select placeholder="Status" [(ngModel)]="filterParams.status">
               <mat-option value="R">Running</mat-option>
               <mat-option value="C">completed</mat-option>
+              <mat-option value="">All</mat-option>
               <!-- <mat-option value="Failed">Failed</mat-option> -->
             </mat-select>
           </mat-form-field>
@@ -191,8 +192,8 @@
                  <!-- action -->
             <ng-container matColumnDef="Action">
               <th mat-header-cell *matHeaderCellDef class="custom-header"> Action </th>
-              <td mat-cell *matCellDef="let element"  [ngClass]='{"clickable": element.STATUS.toUpperCase() == "RUNNING",
-                                                                    "text-white":element.STATUS.toUpperCase() == "RUNNING"
+              <td mat-cell *matCellDef="let element"  [ngClass]='{"clickable": element.STATUS.toUpperCase() == "RUNNING" ,
+                                                                    "text-white":element.STATUS.toUpperCase() == "RUNNING"&& api.formatValue(element.LAST_REPORTED_TIME)
               }' > 
             <span (click)="updatestatus(element)">  {{element.STATUS.toUpperCase() == 'RUNNING'?"close":"-"}}</span> </td>
             </ng-container>
@@ -287,8 +288,8 @@
          
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"
             
-            [ngClass]="{'bg-danger text-white': row.LAST_REPORTED_TIME > 10 &&  row.STATUS.toUpperCase()=='RUNNING',
-                        'bg-success text-white':row.LAST_REPORTED_TIME < 10 &&  row.STATUS.toUpperCase()=='RUNNING' ,
+            [ngClass]="{'bg-danger': row.LAST_REPORTED_TIME > 10 &&  row.STATUS.toUpperCase()=='RUNNING',
+                        'bg-success':row.LAST_REPORTED_TIME < 10 &&  row.STATUS.toUpperCase()=='RUNNING' ,
                         'text-white': row.STATUS.toUpperCase()=='RUNNING' && api.formatValue(row.LAST_REPORTED_TIME)
 
     

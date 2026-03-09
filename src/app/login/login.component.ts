@@ -26,18 +26,18 @@ export class LoginComponent {
 
   
   ngOnInit(): void {
-    // this.userForm = this.fb.group({
-    //   name: ['', [Validators.required, Validators.minLength(3)]],
-    //   email: ['', [Validators.required, Validators.email]],
-    //   // age: [null, [Validators.required, Validators.min(18)]]
-    // });
+      sessionStorage.clear();
+
   }
 
   onSubmit(): void {
     console.log(this.username);
   //  console.log(this.userForm);
     if (this.username === 'admin' && this.password === this.configPassword) {
-      this.router.navigate(['/dashboard']);
+            // this.router.navigate(['/dashboard']);
+              sessionStorage.setItem('isLoggedIn', 'true');
+this.router.navigate(['/dashboard']);
+
     } else {
       alert('Invalid credentials');
     }
